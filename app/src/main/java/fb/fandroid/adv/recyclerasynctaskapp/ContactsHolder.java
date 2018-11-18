@@ -1,24 +1,23 @@
-package fb.fandroid.adv.recyclerasynctaskapp.mock;
+package fb.fandroid.adv.recyclerasynctaskapp;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import fb.fandroid.adv.recyclerasynctaskapp.ContactsAdapter;
-import fb.fandroid.adv.recyclerasynctaskapp.R;
+import fb.fandroid.adv.recyclerasynctaskapp.mock.Mock;
 
 /**
  * Created by Administrator on 09.10.2018.
  */
 
-public class MockHolder extends RecyclerView.ViewHolder {
+public class ContactsHolder extends RecyclerView.ViewHolder {
 
 
     private TextView mName;
     private TextView mValue;
     private String mId;
 
-    public MockHolder(View itemView) {
+    public ContactsHolder(View itemView) {
         super(itemView);
         mName = itemView.findViewById(R.id.tv_name);
         mValue = itemView.findViewById(R.id.tv_value);
@@ -34,7 +33,7 @@ public class MockHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.OnItemClick(mId);
+                listener.onItemClick(mId);
             }
         });
     }

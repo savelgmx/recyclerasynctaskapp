@@ -10,8 +10,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 
 /*
@@ -35,7 +35,8 @@ import android.util.Log;
 http://androiddocs.ru/loaders-ispolzuem-asynctaskloader/
  */
 
-public class MainActivity extends AppCompatActivity implements ContactsAdapter.OnItemClickListener,LoaderManager.LoaderCallbacks<String>{
+public class MainActivity extends AppCompatActivity
+        implements ContactsAdapter.OnItemClickListener,LoaderManager.LoaderCallbacks<String>{
 /*
 В MainActivity:
 - Добавляем интерфейс LoaderManager.LoaderCallbacks<String>, добавляем и реализуем методы.
@@ -45,10 +46,22 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.O
 - В методе onItemClick() запускаем вызываем LoaderManager и инициализируем Loader.
 */
 public static final String LOG_TAG="asynctask";
+
+    private Bundle mBundle;
+    public static final int LOADER_ID = 1;
+    private Loader<String> mLoader;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mBundle = new Bundle();
+        mBundle.putString(ContactsLoader.ARG_WORD, "test");
+        mLoader = getSupportLoaderManager().initLoader(LOADER_ID, mBundle, this);
+   //  }
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -60,7 +73,7 @@ public static final String LOG_TAG="asynctask";
     }
 
     @Override
-    public void OnItemClick(String id) {
+    public void onItemClick(String id) {
 
         Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
@@ -82,13 +95,24 @@ public static final String LOG_TAG="asynctask";
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-
-        Log.d(LOG_TAG,"Loader created");
-        return null;
-    }
+/*
+        добавляем и реализуем методы.
+        - onCreateLoader() должен возвращать созданный нами лоадер.
+*/
+        Loader<String> mLoader = null;
+            mLoader = new ContactsLoader(this, args);
+            Log.d(LOG_TAG, "onCreateLoader");
+        return mLoader;
+     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
+
+ /*       - В onLoadFinished() добавляем метод для проверки полученного номера (String data)
+        и запускаем звонок или показываем тост с ошибкой, если номера нет.
+              */
+        Toast.makeText(this,"Error there is no number",Toast.LENGTH_SHORT).show();
+
         Log.d(LOG_TAG,"Load finished");
 
     }

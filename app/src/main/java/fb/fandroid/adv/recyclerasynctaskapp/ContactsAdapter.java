@@ -13,10 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fb.fandroid.adv.recyclerasynctaskapp.mock.Mock;
-import fb.fandroid.adv.recyclerasynctaskapp.mock.MockHolder;
 
 
-public class ContactsAdapter extends RecyclerView.Adapter<MockHolder> {
+/**
+ * Created by Administrator on 09.10.2018.
+ * MockAdapter
+ * Адаптер нужен, чтобы снабжать RecyclerView данными.
+ * Он – своего рода посредник между объектами,
+ * о которых RecyclerView ничего не знает, и самим RecyclerView.
+ */
+
+public class ContactsAdapter extends RecyclerView.Adapter<ContactsHolder> {
 
     private final List<Mock> mMockList= new ArrayList<>();
     private Cursor mCursor;
@@ -24,14 +31,14 @@ public class ContactsAdapter extends RecyclerView.Adapter<MockHolder> {
 
     @NonNull
     @Override
-    public MockHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ContactsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.li_mock, parent, false);
-        return new MockHolder(view);
+        return new ContactsHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MockHolder holder, int position) {
+    public void onBindViewHolder(ContactsHolder holder, int position) {
         if(mCursor.moveToPosition(position)){
             String name = mCursor.getString(mCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
             int id = mCursor.getInt(mCursor.getColumnIndex(ContactsContract.Contacts._ID));
@@ -59,7 +66,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<MockHolder> {
     }
 
     public interface OnItemClickListener{
-        void OnItemClick(String id);
+        void onItemClick(String id);
     }
 
 
