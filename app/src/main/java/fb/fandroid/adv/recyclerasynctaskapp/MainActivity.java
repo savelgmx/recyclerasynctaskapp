@@ -33,6 +33,7 @@ import android.widget.Toast;
 Без самого запроса при нажатии на пункт меню ничего не должно происходить.
 
 http://androiddocs.ru/loaders-ispolzuem-asynctaskloader/
+https://medium.com/@sanjeevy133/an-idiots-guide-to-android-asynctaskloader-76f8bfb0a0c0
  */
 
 public class MainActivity extends AppCompatActivity
