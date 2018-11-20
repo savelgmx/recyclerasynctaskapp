@@ -37,6 +37,7 @@ https://medium.com/@sanjeevy133/an-idiots-guide-to-android-asynctaskloader-76f8b
 
 
 http://www.androiddocs.com/training/contacts-provider/retrieve-names.html
+
  */
 
 public class MainActivity extends AppCompatActivity
