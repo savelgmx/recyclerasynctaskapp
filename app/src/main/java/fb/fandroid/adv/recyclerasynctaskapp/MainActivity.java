@@ -34,6 +34,9 @@ import android.widget.Toast;
 
 http://androiddocs.ru/loaders-ispolzuem-asynctaskloader/
 https://medium.com/@sanjeevy133/an-idiots-guide-to-android-asynctaskloader-76f8bfb0a0c0
+
+
+http://www.androiddocs.com/training/contacts-provider/retrieve-names.html
  */
 
 public class MainActivity extends AppCompatActivity
@@ -62,6 +65,9 @@ public static final String LOG_TAG="asynctask";
         mBundle = new Bundle();
         mBundle.putString(ContactsLoader.ARG_WORD, "test");
         mLoader = getSupportLoaderManager().initLoader(LOADER_ID, mBundle, this);
+
+      //  mBundle.putString(ContactsLoader.ARGS_ID,id);
+
    //  }
 
         if (savedInstanceState == null) {
@@ -75,6 +81,7 @@ public static final String LOG_TAG="asynctask";
 
     @Override
     public void onItemClick(String id) {
+
 
         Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
@@ -90,22 +97,24 @@ public static final String LOG_TAG="asynctask";
                 startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:"+number)));
 
             }
-
     }
 
     @NonNull
     @Override
-    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+
+
+        public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+
 /*
         добавляем и реализуем методы.
         - onCreateLoader() должен возвращать созданный нами лоадер.
 */
+
         Loader<String> mLoader = null;
             mLoader = new ContactsLoader(this, args);
             Log.d(LOG_TAG, "onCreateLoader");
         return mLoader;
      }
-
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
 

@@ -28,8 +28,11 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
 
     public static final String LOG_TAG = "asynctask";
     public static final String ARG_WORD = "word";
-    private String mIdWord; //Строковое поле для хранения id
+    public static final String ARGS_ID = "args_id";
+    private String mIdWord;
+    private String id;//Строковое поле для хранения id
     // (который приходит на вход в метод onItemClick()).
+
 
 
     public ContactsLoader(@NonNull Context context, Bundle args) {
@@ -50,7 +53,14 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
             return null;
         }
         Log.d(LOG_TAG, "loadInBackground");
-        return generateString(mIdWord);
+        return generateOnItemClick(mIdWord);
+    }
+
+    private String generateOnItemClick(String mIdWord) {
+        //здесь генерируется событие нажатия на
+
+
+     return null;
     }
 
     @Override
@@ -86,9 +96,5 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
     }
 
 
-    private String generateString(String characters) {
-
-        return new String("hui");
-    }
 
 }
