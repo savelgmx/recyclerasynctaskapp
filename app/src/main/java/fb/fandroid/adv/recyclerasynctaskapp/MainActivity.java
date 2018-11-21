@@ -1,10 +1,8 @@
 package fb.fandroid.adv.recyclerasynctaskapp;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -84,7 +82,7 @@ public static final String LOG_TAG="asynctask";
     public void onItemClick(String id) {
 
 
-        Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+ /*       Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
 
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ? AND "
@@ -98,23 +96,30 @@ public static final String LOG_TAG="asynctask";
                 startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:"+number)));
 
             }
+*/
+        mBundle.putString(ContactsLoader.ARGS_ID, id);
+        if(getSupportLoaderManager().getLoader(0) != null){
+            getSupportLoaderManager().restartLoader(0, mBundle, this).forceLoad();
+        }else{
+            getSupportLoaderManager().initLoader(0, mBundle, this).forceLoad();
+        }
     }
 
     @NonNull
     @Override
 
 
-        public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
 
 /*
         добавляем и реализуем методы.
         - onCreateLoader() должен возвращать созданный нами лоадер.
-*/
-
-        Loader<String> mLoader = null;
+ Loader<String> mLoader = null;
             mLoader = new ContactsLoader(this, args);
-            Log.d(LOG_TAG, "onCreateLoader");
         return mLoader;
+        */
+        Log.d(LOG_TAG, "onCreateLoader");
+        return new ContactsLoader(this,args);
      }
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
@@ -122,8 +127,11 @@ public static final String LOG_TAG="asynctask";
  /*       - В onLoadFinished() добавляем метод для проверки полученного номера (String data)
         и запускаем звонок или показываем тост с ошибкой, если номера нет.
               */
-        Toast.makeText(this,"Error there is no number",Toast.LENGTH_SHORT).show();
-
+        if(data != null){
+            startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:" + data)));
+        }else{
+            Toast.makeText(this, "ERROR empty number", Toast.LENGTH_SHORT).show();
+        }
         Log.d(LOG_TAG,"Load finished");
 
     }

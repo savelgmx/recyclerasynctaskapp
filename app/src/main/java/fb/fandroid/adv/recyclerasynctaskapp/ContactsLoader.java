@@ -2,7 +2,9 @@ package fb.fandroid.adv.recyclerasynctaskapp;
 
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
@@ -33,12 +35,9 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
     private String id;//Строковое поле для хранения id
     // (который приходит на вход в метод onItemClick()).
 
-
-
     public ContactsLoader(@NonNull Context context, Bundle args) {
-        super(context);
-        if (args != null)
-            mIdWord = args.getString(ARG_WORD);
+             super(context);
+            if (args!=null) this.id = args.getString(ARGS_ID);
     }
 
     @Override
@@ -46,21 +45,19 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
     public String loadInBackground() {
   /*
     loadInBackground() — метод,
-    в котором собственно и должна быть создана вся работа по загрузке данных.
-*/
+    в котором собственно и должна быть создана вся работа по загрузке данных.*/
 
-        if (mIdWord == null) {
-            return null;
-        }
-        Log.d(LOG_TAG, "loadInBackground");
-        return generateOnItemClick(mIdWord);
-    }
+        Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
 
-    private String generateOnItemClick(String mIdWord) {
-        //здесь генерируется событие нажатия на
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ? AND "
+                        + ContactsContract.CommonDataKinds.Phone.TYPE + " = ?",
+                new String[]{id, String.valueOf(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)},
+                null);
+           String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            Log.d(LOG_TAG,"number="+number);
+            return number;
 
-
-     return null;
     }
 
     @Override
