@@ -34,7 +34,7 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
     private View mErrorView;
     private Random mRandom = new Random();
     private ContactsAdapter.OnItemClickListener mListener;
-    private RecyclerView.Adapter mMockAdapter;
+   // private RecyclerView.Adapter mMockAdapter;
 
 
     public static RecyclerFragment newInstance() {
@@ -75,7 +75,7 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-    mRecycler.setAdapter(mMockAdapter);
+//    mRecycler.setAdapter(mMockAdapter);
     mRecycler.setAdapter(mContactsAdapter);
     mRecycler.addItemDecoration(new CardDecoration());
     mContactsAdapter.setListener(mListener);

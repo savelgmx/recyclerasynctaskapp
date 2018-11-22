@@ -29,9 +29,7 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
 */
 
     public static final String LOG_TAG = "asynctask";
-    public static final String ARG_WORD = "word";
     public static final String ARGS_ID = "args_id";
-    private String mIdWord;
     private String id;//Строковое поле для хранения id
     // (который приходит на вход в метод onItemClick()).
 
@@ -43,10 +41,12 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
     @Override
 
     public String loadInBackground() {
+
+     Log.d(LOG_TAG,"onLoadisBackground with id="+String.valueOf(id));
+
   /*
     loadInBackground() — метод,
     в котором собственно и должна быть создана вся работа по загрузке данных.*/
-
         Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
 
@@ -54,10 +54,16 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
                         + ContactsContract.CommonDataKinds.Phone.TYPE + " = ?",
                 new String[]{id, String.valueOf(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)},
                 null);
-           String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            Log.d(LOG_TAG,"number="+number);
-            return number;
 
+        Log.d(LOG_TAG,"cursor="+String.valueOf(cursor));
+
+        if(cursor!=null & cursor.moveToFirst() )
+        {
+            String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            Log.d(LOG_TAG,"number="+number);
+            cursor.close();
+            return number;
+        } else return null;
     }
 
     @Override

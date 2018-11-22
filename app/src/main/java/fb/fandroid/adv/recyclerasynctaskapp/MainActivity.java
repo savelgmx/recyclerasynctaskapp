@@ -62,12 +62,8 @@ public static final String LOG_TAG="asynctask";
         setContentView(R.layout.activity_main);
 
         mBundle = new Bundle();
-        mBundle.putString(ContactsLoader.ARG_WORD, "test");
+        mBundle.putString(ContactsLoader.ARGS_ID,"1");
         mLoader = getSupportLoaderManager().initLoader(LOADER_ID, mBundle, this);
-
-      //  mBundle.putString(ContactsLoader.ARGS_ID,id);
-
-   //  }
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -81,23 +77,10 @@ public static final String LOG_TAG="asynctask";
     @Override
     public void onItemClick(String id) {
 
+        Log.d(LOG_TAG, "onItemClick with id="+String.valueOf(id));
 
- /*       Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
-
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ? AND "
-                        + ContactsContract.CommonDataKinds.Phone.TYPE + " = ?",
-                new String[]{id, String.valueOf(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)},
-                null);
-
-            if (cursor!=null&&cursor.moveToFirst()){
-                String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                cursor.close();
-                startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:"+number)));
-
-            }
-*/
         mBundle.putString(ContactsLoader.ARGS_ID, id);
+
         if(getSupportLoaderManager().getLoader(0) != null){
             getSupportLoaderManager().restartLoader(0, mBundle, this).forceLoad();
         }else{
@@ -110,15 +93,13 @@ public static final String LOG_TAG="asynctask";
 
 
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-
 /*
         добавляем и реализуем методы.
         - onCreateLoader() должен возвращать созданный нами лоадер.
- Loader<String> mLoader = null;
-            mLoader = new ContactsLoader(this, args);
-        return mLoader;
-        */
-        Log.d(LOG_TAG, "onCreateLoader");
+         */
+
+        mBundle.putString(ContactsLoader.ARGS_ID, String.valueOf(id));
+        Log.d(LOG_TAG, "onCreateLoader with args="+String.valueOf(args));
         return new ContactsLoader(this,args);
      }
     @Override
