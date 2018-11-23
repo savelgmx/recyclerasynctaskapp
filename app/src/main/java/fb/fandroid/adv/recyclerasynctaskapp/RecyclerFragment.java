@@ -109,8 +109,6 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
             mSwipeRefreshLayout.setRefreshing(false);
         }
 
-
-
     }
 
     @Override

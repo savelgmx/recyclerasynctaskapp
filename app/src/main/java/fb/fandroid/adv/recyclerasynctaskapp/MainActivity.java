@@ -81,10 +81,10 @@ public static final String LOG_TAG="asynctask";
 
         mBundle.putString(ContactsLoader.ARGS_ID, id);
 
-        if(getSupportLoaderManager().getLoader(0) != null){
-            getSupportLoaderManager().restartLoader(0, mBundle, this).forceLoad();
+        if(getSupportLoaderManager().getLoader(LOADER_ID) != null){
+            getSupportLoaderManager().restartLoader(LOADER_ID, mBundle, this).forceLoad();
         }else{
-            getSupportLoaderManager().initLoader(0, mBundle, this).forceLoad();
+            getSupportLoaderManager().initLoader(LOADER_ID, mBundle, this).forceLoad();
         }
     }
 
