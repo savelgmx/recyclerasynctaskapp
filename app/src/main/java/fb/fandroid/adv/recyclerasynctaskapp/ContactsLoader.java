@@ -18,9 +18,6 @@ import android.util.Log;
   к контент провайдеру и возвращается найденный номер или null, если номера нет.
  5) Лоадер готов.
  */
-
-
-
 public class ContactsLoader extends AsyncTaskLoader<String> {
 /*
  1)  Создать класс - наследник AsyncTaskLoader<String>
@@ -30,29 +27,36 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
 
     public static final String LOG_TAG = "asynctask";
     public static final String ARGS_ID = "args_id";
-    private String id;//Строковое поле для хранения id
+    private String mId;//Строковое поле для хранения id
     // (который приходит на вход в метод onItemClick()).
+
 
     public ContactsLoader(@NonNull Context context, Bundle args) {
              super(context);
-            if (args!=null) this.id = args.getString(ARGS_ID);
+            if (args!=null) mId = args.getString(ARGS_ID);
+            Log.d(LOG_TAG,"Constructor ContactsLoader mId="+String.valueOf(mId));
+    }
+
+    public void setId(String id) {
+        mId = id;
     }
 
     @Override
 
     public String loadInBackground() {
 
-     Log.d(LOG_TAG,"onLoadisBackground with id="+String.valueOf(id));
-
-  /*
+ /*
     loadInBackground() — метод,
     в котором собственно и должна быть создана вся работа по загрузке данных.*/
+
+     Log.d(LOG_TAG,"onLoadisBackground with id="+String.valueOf(mId));
+
         Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
 
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ? AND "
                         + ContactsContract.CommonDataKinds.Phone.TYPE + " = ?",
-                new String[]{id, String.valueOf(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)},
+                new String[]{mId, String.valueOf(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)},
                 null);
 
         Log.d(LOG_TAG,"cursor="+String.valueOf(cursor));
@@ -71,6 +75,7 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
     public void forceLoad() {
         Log.d(LOG_TAG, "forceLoad");
         super.forceLoad();
+        setId(mId);
     }
 
     @Override
