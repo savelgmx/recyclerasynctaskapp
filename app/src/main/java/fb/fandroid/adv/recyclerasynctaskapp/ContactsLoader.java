@@ -11,12 +11,6 @@ import android.util.Log;
 
 /**
  * Created by Administrator on 16.11.2018.
-
- 3) Добавить логику добавления этого id (через конструктор или сеттер)
- 4) Реализовать метод String loadInBackground(), скопировав в него текущую логику onItemClick().
- Соответственно, в этом методе проходит запрос
-  к контент провайдеру и возвращается найденный номер или null, если номера нет.
- 5) Лоадер готов.
  */
 public class ContactsLoader extends AsyncTaskLoader<String> {
 /*
@@ -38,6 +32,7 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
     }
 
     public void setId(String id) {
+  //Добавить логику добавления этого id (через сеттер)
         mId = id;
     }
 
@@ -47,7 +42,9 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
 
  /*
     loadInBackground() — метод,
-    в котором собственно и должна быть создана вся работа по загрузке данных.*/
+    в котором собственно и должна быть создана вся работа по загрузке данных.
+ В этом методе проходит запрос к контент провайдеру
+ и возвращается найденный номер или null, если номера нет.*/
 
      Log.d(LOG_TAG,"onLoadisBackground with id="+String.valueOf(mId));
 

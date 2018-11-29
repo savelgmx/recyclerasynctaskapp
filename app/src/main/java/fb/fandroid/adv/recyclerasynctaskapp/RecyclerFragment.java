@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Random;
 
 
 /**
@@ -29,13 +28,8 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private RecyclerView mRecycler;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
     private final ContactsAdapter mContactsAdapter = new ContactsAdapter();
-    private View mErrorView;
-    private Random mRandom = new Random();
     private ContactsAdapter.OnItemClickListener mListener;
-   // private RecyclerView.Adapter mMockAdapter;
-
 
     public static RecyclerFragment newInstance() {
      return new RecyclerFragment();
@@ -66,8 +60,6 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
         mRecycler = view.findViewById(R.id.recycler);
         mSwipeRefreshLayout = view.findViewById(R.id.refresher);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mErrorView=view.findViewById(R.id.error_view);
-
          }
 
 
@@ -75,7 +67,6 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-//    mRecycler.setAdapter(mMockAdapter);
     mRecycler.setAdapter(mContactsAdapter);
     mRecycler.addItemDecoration(new CardDecoration());
     mContactsAdapter.setListener(mListener);

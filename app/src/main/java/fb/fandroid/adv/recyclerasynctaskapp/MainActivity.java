@@ -1,7 +1,6 @@
 package fb.fandroid.adv.recyclerasynctaskapp;
 
 import android.content.ContentValues;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -13,8 +12,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
-
-
 /*
 перенести запрос к ContentProvider из главного потока в фоновый.
 И на сладкое.
@@ -29,7 +26,6 @@ import android.widget.Toast;
 http://androiddocs.ru/loaders-ispolzuem-asynctaskloader/
 https://medium.com/@sanjeevy133/an-idiots-guide-to-android-asynctaskloader-76f8bfb0a0c0
 http://www.androiddocs.com/training/contacts-provider/retrieve-names.html
-
  */
 
 public class MainActivity extends AppCompatActivity
@@ -38,8 +34,6 @@ public class MainActivity extends AppCompatActivity
     В MainActivity:
     - Добавляем интерфейс LoaderManager.LoaderCallbacks<String>, добавляем и реализуем методы.
     - onCreateLoader() должен возвращать созданный нами лоадер.
-    - В onLoadFinished() добавляем метод для проверки полученного номера (String data)
-    и запускаем звонок или показываем тост с ошибкой, если номера нет.
     - В методе onItemClick() запускаем вызываем LoaderManager и инициализируем Loader.
     */
     public static final String LOG_TAG = "asynctask";
@@ -62,9 +56,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemClick(String id) {
 /*
-        В MainActivity определите ContactsLoader loader. В методе onItemClick
-                loader = (ContactsLoader) getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
-        loader.setId(id);
+        параметр id передается в через loader.setId(id);
         loader.forceLoad();
 */
         Log.d(LOG_TAG, "onItemClick with id=" + String.valueOf(id));
@@ -81,12 +73,8 @@ public class MainActivity extends AppCompatActivity
             loader.forceLoad();
         }
     }
-
-
     @NonNull
     @Override
-
-
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
 /*
         добавляем и реализуем методы.
@@ -121,9 +109,6 @@ public class MainActivity extends AppCompatActivity
 
     private class UpdateDrinkTask extends AsyncTask<String,Void,Boolean> {
         private ContentValues drinkValues;
-
-
-
 
         @Override
         protected Boolean doInBackground(String... strings) {
