@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Administrator on 16.11.2018.
  */
@@ -47,6 +49,20 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
  и возвращается найденный номер или null, если номера нет.*/
 
      Log.d(LOG_TAG,"onLoadisBackground with id="+String.valueOf(mId));
+
+/*
+        Чтобы успеть нажать на пункт меню после того, как нажали на элемент списка,
+        добавьте двухсекундную задержку в метод loadInBackground() до запроса к контент провайдеру
+        через метод TimeUnit.SECONDS.sleep(2).
+*/
+
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
 
         Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},

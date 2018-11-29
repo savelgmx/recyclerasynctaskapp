@@ -14,14 +14,6 @@ import android.util.Log;
 import android.widget.Toast;
 /*
 перенести запрос к ContentProvider из главного потока в фоновый.
-И на сладкое.
-Добавьте в MainActivity пункт меню в тулбар. Меню должно быть “ifRoom”
-При нажатии на это меню, запрос номера должен останавливаться.
-Чтобы успеть нажать на пункт меню после того, как нажали на элемент списка,
-добавьте двухсекундную задержку в метод loadInBackground() до запроса к контент провайдеру
-через метод TimeUnit.SECONDS.sleep(2).
-После отмены запроса, должен появиться тост с текстом “Запрос отменен”
-Без самого запроса при нажатии на пункт меню ничего не должно происходить.
 
 http://androiddocs.ru/loaders-ispolzuem-asynctaskloader/
 https://medium.com/@sanjeevy133/an-idiots-guide-to-android-asynctaskloader-76f8bfb0a0c0

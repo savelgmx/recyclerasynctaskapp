@@ -14,11 +14,13 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-
 
 /**
  * Created by Administrator on 08.10.2018.
@@ -26,14 +28,44 @@ import android.view.ViewGroup;
 
 public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,LoaderManager.LoaderCallbacks<Cursor>{
 
+    public static final String LOG_TAG = "asynctask";
+    private final ContactsAdapter mContactsAdapter = new ContactsAdapter();
     private RecyclerView mRecycler;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private final ContactsAdapter mContactsAdapter = new ContactsAdapter();
     private ContactsAdapter.OnItemClickListener mListener;
 
     public static RecyclerFragment newInstance() {
-     return new RecyclerFragment();
-     }
+        return new RecyclerFragment();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+/*        При нажатии на это меню, запрос номера должен останавливаться.
+                После отмены запроса, должен появиться тост с текстом “Запрос отменен”
+        Без самого запроса при нажатии на пункт меню ничего не должно происходить.
+ */
+        inflater.inflate(R.menu.menu_main, menu);
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // получим идентификатор выбранного пункта меню
+        int id = item.getItemId();
+        // Операции для выбранного пункта меню
+        switch (id) {
+            case R.id.item2:
+                //При нажатии на это меню, запрос номера должен останавливаться.
+                Log.d(LOG_TAG,"item2 selected");
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
+    }
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -52,29 +84,29 @@ public class RecyclerFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fr_recycler, container, false);
-     }
+    }
 
     @Override
- public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         mRecycler = view.findViewById(R.id.recycler);
         mSwipeRefreshLayout = view.findViewById(R.id.refresher);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-         }
+    }
 
 
-@Override
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-    mRecycler.setAdapter(mContactsAdapter);
-    mRecycler.addItemDecoration(new CardDecoration());
-    mContactsAdapter.setListener(mListener);
-}
+        super.onActivityCreated(savedInstanceState);
+        mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecycler.setAdapter(mContactsAdapter);
+        mRecycler.addItemDecoration(new CardDecoration());
+        mContactsAdapter.setListener(mListener);
+    }
     @Override
     public void onRefresh() {
 
-    getLoaderManager().restartLoader(0,null,this);//иницыализируем Лоадер
+        getLoaderManager().restartLoader(0,null,this);//иницыализируем Лоадер
 
 
     }

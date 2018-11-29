@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">RecyclerAsyncTaskApp</string>
+    <string name="action_add_type1_item">Добавить элемент 1 вида</string>
+    <string name="action_add_type2_item">Добавить элемент 2 вида</string>
+    <string name="action_exit">Выход</string>
+    <string name="error_text">Что-то пошло не так. Попробуйте еще раз.</string>
+    <string name="item2">Stop dialing</string>
+</resources>
