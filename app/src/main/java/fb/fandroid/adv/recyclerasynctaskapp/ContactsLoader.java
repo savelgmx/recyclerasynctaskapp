@@ -107,6 +107,8 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
         //onStopLoading() — срабатывает при остановке загрузчика
         super.onStopLoading();
         Log.d(LOG_TAG, "onStopLoading");
+        // Attempt to cancel the current load task if possible.
+        cancelLoad();
     }
 
     @Override
