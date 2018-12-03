@@ -55,13 +55,22 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
         добавьте двухсекундную задержку в метод loadInBackground() до запроса к контент провайдеру
         через метод TimeUnit.SECONDS.sleep(2).
 */
-
         try {
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+/*
+            Завершать задачу надо нам самим.
+            Для этого мы читаем isLoadInBackgroundCanceled() и, если он true, то завершаем метод doInBackground.
+            Мы просто добавили проверку isLoadInBackgroundCanceled. Если он возвращает true, то выходим (return)
+*/
+
+        if (isLoadInBackgroundCanceled()) {
+            Log.d(LOG_TAG, "isLoadInBackgroundCancelled: " + isLoadInBackgroundCanceled());
+            return null;
+        }
 
 
         Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -81,6 +90,9 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
             cursor.close();
             return number;
         } else return null;
+
+
+
     }
 
     @Override
@@ -107,8 +119,7 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
         //onStopLoading() — срабатывает при остановке загрузчика
         super.onStopLoading();
         Log.d(LOG_TAG, "onStopLoading");
-        // Attempt to cancel the current load task if possible.
-        cancelLoad();
+         cancelLoad();// Attempt to cancel the current load task if possible.
     }
 
     @Override
@@ -117,7 +128,5 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
         Log.d(LOG_TAG, "deliverResult");
         super.deliverResult(data);
     }
-
-
 
 }
