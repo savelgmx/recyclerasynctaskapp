@@ -28,13 +28,13 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
 
 
     public ContactsLoader(@NonNull Context context, Bundle args) {
-             super(context);
-            if (args!=null) mId = args.getString(ARGS_ID);
-            Log.d(LOG_TAG,"Constructor ContactsLoader mId="+String.valueOf(mId));
+        super(context);
+        if (args!=null) mId = args.getString(ARGS_ID);
+        Log.d(LOG_TAG,"Constructor ContactsLoader mId="+String.valueOf(mId));
     }
 
     public void setId(String id) {
-  //Добавить логику добавления этого id (через сеттер)
+        //Добавить логику добавления этого id (через сеттер)
         mId = id;
     }
 
@@ -48,7 +48,7 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
  В этом методе проходит запрос к контент провайдеру
  и возвращается найденный номер или null, если номера нет.*/
 
-     Log.d(LOG_TAG,"onLoadisBackground with id="+String.valueOf(mId));
+        Log.d(LOG_TAG,"onLoadisBackground with id="+String.valueOf(mId));
 
 /*
         Чтобы успеть нажать на пункт меню после того, как нажали на элемент списка,
@@ -91,24 +91,22 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
             return number;
         } else return null;
 
-
-
     }
 
     @Override
-//    forceLoad() — «принудительная» загрузка новых данных
     public void forceLoad() {
+//    forceLoad() — «принудительная» загрузка новых данных
         Log.d(LOG_TAG, "forceLoad");
         super.forceLoad();
         setId(mId);
     }
 
     @Override
-
-    //onStartLoading() — срабатывает при запуске загрузчика
-    // (но это еще не означает загрузку данных)
-
     protected void onStartLoading() {
+
+        //onStartLoading() — срабатывает при запуске загрузчика
+        // (но это еще не означает загрузку данных)
+
         super.onStartLoading();
         Log.d(LOG_TAG, "onStartLoading");
         forceLoad();
@@ -119,12 +117,12 @@ public class ContactsLoader extends AsyncTaskLoader<String> {
         //onStopLoading() — срабатывает при остановке загрузчика
         super.onStopLoading();
         Log.d(LOG_TAG, "onStopLoading");
-         cancelLoad();// Attempt to cancel the current load task if possible.
+        cancelLoad();// Отмена текушей задачи загрузчика,если возможно
     }
 
     @Override
     public void deliverResult(String data) {
-       // deliverResult() — получает и возвращает итоговый результат работы загрузчика
+        // deliverResult() — получает и возвращает итоговый результат работы загрузчика
         Log.d(LOG_TAG, "deliverResult");
         super.deliverResult(data);
     }

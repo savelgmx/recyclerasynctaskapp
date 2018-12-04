@@ -1,9 +1,7 @@
 package fb.fandroid.adv.recyclerasynctaskapp;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -72,12 +70,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void cancelTask() {
-        if (loader == null) {
+        if (loader == null) { //если лоадер пуст то нечего еще отменять
             Log.d(LOG_TAG,"loader =NULL");
             return;
         }
-        loader.cancelLoadInBackground();
-     }
+        loader.stopLoading(); //остановить загрузку значит отменить ее
+        Toast.makeText(this,"Query cancelled ",Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void onItemClick(String id) {
@@ -90,8 +89,8 @@ public class MainActivity extends AppCompatActivity
         // mBundle.putString(ContactsLoader.ARGS_ID, id);
         if (getSupportLoaderManager().getLoader(LOADER_ID) != null) {
             loader=(ContactsLoader)getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
-          loader.setId(id);
-          loader.forceLoad();
+            loader.setId(id);
+            loader.forceLoad();
 
 
         } else {
@@ -134,12 +133,4 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private class UpdateDrinkTask extends AsyncTask<String,Void,Boolean> {
-        private ContentValues drinkValues;
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            return null;
-        }
-    }
 }
